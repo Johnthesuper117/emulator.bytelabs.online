@@ -1,4 +1,4 @@
-// load data directly from games.json in moduale fasion
+// Load game data directly from embedded JSON
 const gamesDatabase = JSON.parse(document.getElementById('games').textContent);
 
 // Initialize Fuse.js with search configuration

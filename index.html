@@ -12,21 +12,20 @@
     <div id="crt-container">
         <!-- Terminal interface where all interaction happens -->
         <div id="terminal">
-            <!-- improve the ASCII art logo so it actually say EMULATOR -->
             <div class="logo">
-╔══════════════════════════════════════════════════╗
-║                                                  ║
-║  ███████╗███╗   ███╗██╗   ██╗██╗      █████╗     ║
-║  ██╔════╝████╗ ████║██║   ██║██║     ██╔══██╗    ║
-║  █████╗  ██╔████╔██║██║   ██║██║     ███████║    ║
-║  ██╔══╝  ██║╚██╔╝██║██║   ██║██║     ██╔══██║    ║
-║  ███████╗██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║    ║
-║  ╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ║
-║                                                  ║
-║             BYTELABS EMULATOR v1.0               ║
-║             ----------------------               ║
-║                                                  ║
-╚══════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║  ███████╗███╗   ███╗██╗   ██╗██╗      █████╗ ████████╗ ██████╗   ║
+║  ██╔════╝████╗ ████║██║   ██║██║     ██╔══██╗╚══██╔══╝██╔═══██╗  ║
+║  █████╗  ██╔████╔██║██║   ██║██║     ███████║   ██║   ██║   ██║  ║
+║  ██╔══╝  ██║╚██╔╝██║██║   ██║██║     ██╔══██║   ██║   ██║   ██║  ║
+║  ███████╗██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║   ██║   ╚██████╔╝  ║
+║  ╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝   ║
+║                                                                   ║
+║                    BYTELABS EMULATOR v1.0                         ║
+║                    ----------------------                         ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
             </div>
 
             <!-- Boot sequence messages -->
@@ -58,9 +57,70 @@
         </div>
     </div>
 
+    <!-- Games database -->
+    <script type="application/json" id="games">
+    [
+        {
+            "id": 1,
+            "title": "Super Mario Bros",
+            "platform": "NES",
+            "year": 1985,
+            "genre": "Platformer",
+            "description": "Classic platforming adventure with Mario",
+            "tags": ["mario", "nintendo", "platform", "classic"],
+            "core": "nes",
+            "rom": "roms/supermario.nes"
+        },
+        {
+            "id": 2,
+            "title": "The Legend of Zelda",
+            "platform": "NES",
+            "year": 1986,
+            "genre": "Action-Adventure",
+            "description": "Epic quest to save Princess Zelda",
+            "tags": ["zelda", "adventure", "nintendo", "rpg"],
+            "core": "nes",
+            "rom": "roms/zelda.nes"
+        },
+        {
+            "id": 3,
+            "title": "Sonic the Hedgehog",
+            "platform": "Genesis",
+            "year": 1991,
+            "genre": "Platformer",
+            "description": "Lightning-fast platforming with Sonic",
+            "tags": ["sonic", "sega", "speed", "platform"],
+            "core": "genesis",
+            "rom": "roms/sonic.gen"
+        },
+        {
+            "id": 4,
+            "title": "Street Fighter II",
+            "platform": "SNES",
+            "year": 1992,
+            "genre": "Fighting",
+            "description": "The legendary fighting game",
+            "tags": ["fighting", "arcade", "competitive"],
+            "core": "snes",
+            "rom": "roms/sf2.smc"
+        },
+        {
+            "id": 5,
+            "title": "Pokémon Red",
+            "platform": "Game Boy",
+            "year": 1996,
+            "genre": "RPG",
+            "description": "Catch and train pocket monsters",
+            "tags": ["pokemon", "rpg", "gameboy", "adventure"],
+            "core": "gb",
+            "rom": "roms/pokemon-red.gb"
+        }
+    ]
+    </script>
+
     <!-- Fuse.js library for fuzzy search functionality -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
-    
+
     <script src="js/emulator.js"></script>
 </body>
 </html>
