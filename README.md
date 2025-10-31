@@ -26,36 +26,39 @@ Formatted results display with metadata preview
 Keyboard navigation support (arrow keys, enter to select)
 
 3. Game Database Structure
-- Game metadata (title, platform, year, genre, description)
-- Technical data (ROM path, core type, controls)
-- Media assets (cover art, screenshots)
-- Search optimization (tags, alternate titles)
-- Save state configuration
+Game metadata (title, platform, year, genre, description)
+Technical data (ROM path, core type, controls)
+Media assets (cover art, screenshots)
+Search optimization (tags, alternate titles)
+Save state configuration
+
+
+4. Emulator Integration
+EmulatorJS wrapper with terminal-themed controls
+Smooth transition from search to gameplay
+Back navigation to search interface
+Game state management
+
+5. User Flow 
+
+
+```
+Boot Screen → Search Terminal → Results Display → Game Launch → Emulator View  
+                ↑                                                   ↓  
+                └──────────────── Exit Game ────────────────────────┘  
 ```
 
-### 4. Emulator Integration
-- EmulatorJS wrapper with terminal-themed controls
-- Smooth transition from search to gameplay
-- Back navigation to search interface
-- Game state management
 
-### 5. User Flow
-```
-Boot Screen → Search Terminal → Results Display → Game Launch → Emulator View
-                ↑                                                      ↓
-                └──────────────── Exit Game ────────────────────────┘
-```
+🎨 Visual Design Elements
+Phosphor green (#33FF33) text on deep black background
+CRT scanline overlay effect
+Monospace font (VT323 or Courier New)
+Screen curvature and glow effects
+Retro loading animations
+ASCII art dividers and borders
 
-## 🎨 Visual Design Elements
-- Phosphor green (#33FF33) text on deep black background
-- CRT scanline overlay effect
-- Monospace font (VT323 or Courier New)
-- Screen curvature and glow effects
-- Retro loading animations
-- ASCII art dividers and borders
-
-## 📁 File Structure
 ```
+📁 File Structure
 /retro-arcade/
 ├── index.html
 ├── css/
@@ -70,6 +73,8 @@ Boot Screen → Search Terminal → Results Display → Game Launch → Emulator
 │   └── (game files)
 └── assets/
     └── covers/
+```
+
 🔧 Key Features
 
 Responsive design (maintains aesthetic on mobile)
