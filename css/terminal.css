@@ -1,0 +1,275 @@
+/* Reset default browser styles and set up base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main body styling with CRT monitor aesthetic */
+body {
+    background: #000;
+    color: #33FF33;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Container that wraps everything to apply CRT effects */
+#crt-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #0a0a0a;
+    overflow: hidden;
+}
+
+/* Creates the curved glass effect of old CRT monitors */
+#crt-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Animated scanline effect that moves down the screen */
+#crt-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9;
+    animation: scanline 8s linear infinite;
+}
+
+/* Animation for moving scanlines */
+@keyframes scanline {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100px); }
+}
+
+/* Main terminal screen area */
+#terminal {
+    position: relative;
+    padding: 40px;
+    height: 100vh;
+    overflow-y: auto;
+    text-shadow: 0 0 10px #33FF33;
+    z-index: 1;
+}
+
+/* Custom scrollbar styling to match terminal theme */
+#terminal::-webkit-scrollbar {
+    width: 10px;
+}
+
+#terminal::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+#terminal::-webkit-scrollbar-thumb {
+    background: #33FF33;
+    box-shadow: 0 0 10px #33FF33;
+}
+
+/* ASCII art logo styling */
+.logo {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    white-space: pre;
+}
+
+/* Individual terminal output lines */
+.terminal-line {
+    margin: 5px 0;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Fade in animation for new terminal lines */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Input area where user types search queries */
+.input-line {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* The prompt symbol before input ("> ") */
+.prompt {
+    margin-right: 10px;
+}
+
+/* Actual text input field styled to look like terminal */
+#search-input {
+    background: transparent;
+    border: none;
+    color: #33FF33;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    outline: none;
+    flex: 1;
+    text-shadow: 0 0 10px #33FF33;
+}
+
+/* Blinking cursor effect */
+.cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+/* Container for search results */
+.results {
+    margin-top: 20px;
+}
+
+/* Individual game result item */
+.game-item {
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #33FF33;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(51, 255, 51, 0.05);
+}
+
+/* Hover effect for game items */
+.game-item:hover {
+    background: rgba(51, 255, 51, 0.15);
+    box-shadow: 0 0 20px rgba(51, 255, 51, 0.3);
+    transform: translateX(5px);
+}
+
+/* Selected game item styling */
+.game-item.selected {
+    background: rgba(51, 255, 51, 0.2);
+    box-shadow: 0 0 20px rgba(51, 255, 51, 0.5);
+}
+
+/* Game title in results */
+.game-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+/* Game metadata (platform, year, genre) */
+.game-meta {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+/* Game description text */
+.game-description {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* Container for the emulator when game is loaded */
+#emulator-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 100;
+    padding: 20px;
+}
+
+/* Back button to return to search */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(51, 255, 51, 0.2);
+    border: 2px solid #33FF33;
+    color: #33FF33;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 101;
+    transition: all 0.3s;
+}
+
+.back-button:hover {
+    background: rgba(51, 255, 51, 0.4);
+    box-shadow: 0 0 20px rgba(51, 255, 51, 0.5);
+}
+
+/* Emulator iframe container */
+#emulator-frame {
+    width: 100%;
+    height: calc(100% - 60px);
+    margin-top: 60px;
+    border: 2px solid #33FF33;
+    box-shadow: 0 0 30px rgba(51, 255, 51, 0.3);
+}
+
+/* Loading animation container */
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Animated dots for loading state */
+.loading-dots::after {
+    content: '';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* Error message styling */
+.error {
+    color: #FF3333;
+    text-shadow: 0 0 10px #FF3333;
+}
+
+/* Responsive design for mobile devices */
+@media (max-width: 768px) {
+    #terminal {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .logo {
+        font-size: 12px;
+    }
+
+    .game-title {
+        font-size: 20px;
+    }
+
+    .game-meta, .game-description {
+        font-size: 14px;
+    }
+}

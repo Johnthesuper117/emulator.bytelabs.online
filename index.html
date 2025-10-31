@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYTE LABS EMULATOR v1.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/terminal.css">
+</head>
+<body>
+    <!-- Main CRT container with all visual effects -->
+    <div id="crt-container">
+        <!-- Terminal interface where all interaction happens -->
+        <div id="terminal">
+            <!-- improve the ASCII art logo so it actually say EMULATOR -->
+            <div class="logo">
+╔══════════════════════════════════════════════════╗
+║                                                  ║
+║  ███████╗███╗   ███╗██╗   ██╗██╗      █████╗     ║
+║  ██╔════╝████╗ ████║██║   ██║██║     ██╔══██╗    ║
+║  █████╗  ██╔████╔██║██║   ██║██║     ███████║    ║
+║  ██╔══╝  ██║╚██╔╝██║██║   ██║██║     ██╔══██║    ║
+║  ███████╗██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║    ║
+║  ╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ║
+║                                                  ║
+║             BYTELABS EMULATOR v1.0               ║
+║             ----------------------               ║
+║                                                  ║
+╚══════════════════════════════════════════════════╝
+            </div>
+
+            <!-- Boot sequence messages -->
+            <div id="boot-sequence">
+                <div class="terminal-line">SYSTEM INITIALIZING...</div>
+                <div class="terminal-line">LOADING ROM DATABASE...</div>
+                <div class="terminal-line">EMULATION CORES READY</div>
+                <div class="terminal-line">═══════════════════════════════════════════════════</div>
+                <div class="terminal-line">TYPE TO SEARCH GAMES</div>
+                <div class="terminal-line">USE ARROW KEYS TO NAVIGATE | ENTER TO SELECT</div>
+                <div class="terminal-line">═══════════════════════════════════════════════════</div>
+            </div>
+
+            <!-- Search input area -->
+            <div class="input-line">
+                <span class="prompt">&gt;</span>
+                <input type="text" id="search-input" autocomplete="off" autofocus>
+                <span class="cursor">█</span>
+            </div>
+
+            <!-- Results container (populated dynamically) -->
+            <div id="results" class="results"></div>
+        </div>
+
+        <!-- Emulator container (hidden until game is selected) -->
+        <div id="emulator-container">
+            <button class="back-button" onclick="exitEmulator()">← BACK TO TERMINAL</button>
+            <div id="emulator-frame"></div>
+        </div>
+    </div>
+
+    <!-- Fuse.js library for fuzzy search functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
+    
+    <script src="js/emulator.js"></script>
+</body>
+</html>
