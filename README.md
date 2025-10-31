@@ -7,7 +7,6 @@ Pure HTML5, CSS3, and Vanilla JavaScript (no frameworks for authentic lightweigh
 EmulatorJS library integration
 JSON-based game database
 Fuse.js for fuzzy search capabilities
-Ruby and Jekyll to make the website more dynamic and easier to edit
 
 🖥️ Core Components
 1. Terminal Interface
