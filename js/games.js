@@ -85,24 +85,10 @@ function showMainMenu() {
     addLine('SELECT A GAME:');
     addLine('');
 
-    const games = [
-        '1. SNAKE - Classic arcade action',
-        '2. TETRIS - Puzzle block stacking',
-        '3. BREAKOUT - Brick breaking arcade',
-        '4. DUNGEON QUEST - Text adventure',
-        '5. MEMORY MATCH - Card matching puzzle'
-    ];
-
-    games.forEach((game, index) => {
-        const item = document.createElement('div');
-        item.className = 'menu-item';
-        item.textContent = game;
-        item.onclick = () => selectGame(index);
-        terminal.appendChild(item);
-    });
-
     addLine('');
-    addLine('Use mouse to select or press 1-5 on keyboard');
+    addLine('USE THE SEARCH BOX TO FIND GAMES (TYPE A TITLE OR TAG)');
+    addLine('');
+    addLine('Tip: You can type platform names (nes, gb, genesis) or tags like "adventure"');
 }
 
 /* ===== GAME SELECTION ===== */
@@ -1009,7 +995,22 @@ function updateSelection(items) {
 }
 
 function launchGame(game) {
-    // Navigate to per-game page; game.html will route to emulator if ROM present
+    // If this is a built-in in-page game, call its start function directly
+    if (game && game.builtin && game.start && typeof window[game.start] === 'function') {
+        // clear search results and call built-in starter
+        const results = document.getElementById('results');
+        if (results) results.innerHTML = '';
+        // call the function (e.g., startSnake)
+        try {
+            window[game.start]();
+        } catch (err) {
+            console.error('Failed to launch builtin game', err);
+            alert('Unable to launch built-in game.');
+        }
+        return;
+    }
+
+    // Otherwise, navigate to per-game page; game.html will route to emulator if ROM present
     location.href = `game.html?game=${encodeURIComponent(game.id)}`;
 }
 

@@ -11,6 +11,31 @@
         <div class="terminal" id="terminal">
             <div id="emulator-root"></div>
             <div id="emulator-message"></div>
+
+            <div id="emulator-ui" style="margin-top:12px;">
+                <div class="line">Select console/core:</div>
+                <select id="core-select">
+                    <option value="nes">NES</option>
+                    <option value="snes">SNES</option>
+                    <option value="genesis">Genesis</option>
+                    <option value="gb">Game Boy</option>
+                    <option value="gba">GBA</option>
+                </select>
+
+                <div class="line" style="margin-top:10px;">Or paste a ROM URL:</div>
+                <input id="rom-url" class="text-input" placeholder="https://example.com/path/to.rom" />
+
+                <div class="line" style="margin-top:10px;">Or upload a ROM file:</div>
+                <input type="file" id="rom-file" accept=".nes,.smc,.sfc,.gen,.gb,.gba,.bin,.zip" />
+
+                <div style="margin-top:12px;">
+                    <button id="launch-btn">Launch ROM</button>
+                    <button id="back-btn">Back to search</button>
+                </div>
+
+                <div id="rom-info" class="line" style="margin-top:10px; opacity:0.9"></div>
+            </div>
+
             <div style="margin-top:20px;">
                 <a href="/" style="color:#33ff33;">← Back to search</a>
             </div>

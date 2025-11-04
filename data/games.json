@@ -55,5 +55,61 @@
                 "core": "gb",
                 "rom": "roms/pokemon-red.gb"
             }
+            ,
+            {
+                "id": 6,
+                "title": "Snake",
+                "platform": "Web",
+                "year": 2025,
+                "genre": "Arcade",
+                "description": "Classic Snake — use arrow keys to move and eat food to grow.",
+                "tags": ["snake", "arcade", "built-in"],
+                "builtin": true,
+                "start": "startSnake"
+            },
+            {
+                "id": 7,
+                "title": "Tetris",
+                "platform": "Web",
+                "year": 2025,
+                "genre": "Puzzle",
+                "description": "Stack the falling blocks and clear lines.",
+                "tags": ["tetris", "puzzle", "built-in"],
+                "builtin": true,
+                "start": "startTetris"
+            },
+            {
+                "id": 8,
+                "title": "Breakout",
+                "platform": "Web",
+                "year": 2025,
+                "genre": "Arcade",
+                "description": "Break bricks with the ball and paddle.",
+                "tags": ["breakout", "arcade", "built-in"],
+                "builtin": true,
+                "start": "startBreakout"
+            },
+            {
+                "id": 9,
+                "title": "Dungeon Quest",
+                "platform": "Web",
+                "year": 2025,
+                "genre": "Text Adventure",
+                "description": "A small text adventure — explore rooms and collect items.",
+                "tags": ["adventure", "text", "built-in"],
+                "builtin": true,
+                "start": "startTextAdventure"
+            },
+            {
+                "id": 10,
+                "title": "Memory Match",
+                "platform": "Web",
+                "year": 2025,
+                "genre": "Puzzle",
+                "description": "Find matching pairs of cards.",
+                "tags": ["memory", "puzzle", "built-in"],
+                "builtin": true,
+                "start": "startMemoryMatch"
+            }
     ]
 }

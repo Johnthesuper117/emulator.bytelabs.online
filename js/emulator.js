@@ -14,41 +14,121 @@ function showMessage(html) {
     root.innerHTML = html;
 }
 
-async function init() {
-    const params = parseQuery();
-    const rom = params.rom;
-    const core = params.core || '';
-    const title = params.title || '';
-
-    if (!rom) {
-        showMessage('<div class="line">No ROM specified. Go back to <a href="/">search</a>.</div>');
-        return;
-    }
-
-    // Show placeholder loading information
+// Launch using a URL (either uploaded blob URL or remote URL)
+async function launchWithUrl(romUrl, core, title) {
     showMessage(`
-        <div class="line">LOADING ${title ? title.toUpperCase() : rom}</div>
+        <div class="line">LOADING ${title ? title.toUpperCase() : romUrl}</div>
         <div class="line">CORE: ${core}</div>
-        <div class="line">ROM: ${rom}</div>
-        <div class="line" style="opacity:0.8; margin-top:12px;">If EmulatorJS is available, initialize it here with the ROM URL.</div>
+        <div class="line">ROM: ${romUrl}</div>
+        <div class="line" style="opacity:0.8; margin-top:12px;">Attempting to initialize EmulatorJS (if present)...</div>
     `);
 
-    // OPTIONAL: If you include EmulatorJS on the page (script tag), initialize it here.
-    // Example (pseudocode):
-    // if (window.EmulatorJS) { EmulatorJS.load({ romUrl: rom, core: core, mountPoint: '#emulator-root' }) }
-
+    // Try to initialize EmulatorJS if it's included on the page
     try {
-        // Try to fetch the ROM to check availability (not required, optional check)
-        const res = await fetch('/' + rom, { method: 'HEAD' });
-        if (!res.ok) {
-            const msg = document.createElement('div');
-            msg.className = 'line';
-            msg.textContent = 'Warning: ROM file not found on server (HTTP ' + res.status + ').';
-            document.getElementById('emulator-message').appendChild(msg);
+        if (window.EmulatorJS && typeof window.EmulatorJS.load === 'function') {
+            // Known API surface is unclear across forks; attempt common method names safely
+            window.EmulatorJS.load({ romUrl, core, mountPoint: '#emulator-root' });
+            return;
+        }
+
+        if (window.EmulatorJS && typeof window.EmulatorJS.run === 'function') {
+            window.EmulatorJS.run(romUrl, { core, mountPoint: '#emulator-root' });
+            return;
         }
     } catch (err) {
-        console.warn('ROM check failed', err);
+        console.warn('EmulatorJS init attempted but failed', err);
     }
+
+    // If EmulatorJS is not present or initialization failed, show instructions and a simple viewer link
+    const info = document.getElementById('emulator-message');
+    info.innerHTML = '';
+    const warn = document.createElement('div');
+    warn.className = 'line';
+    warn.textContent = 'EmulatorJS not detected on this page.';
+    info.appendChild(warn);
+
+    const inst = document.createElement('div');
+    inst.className = 'line';
+    inst.innerHTML = 'To run in-browser, include the EmulatorJS bundle on this page (see project docs). Meanwhile, you can download/open the ROM manually:';
+    info.appendChild(inst);
+
+    const link = document.createElement('a');
+    link.href = romUrl;
+    link.textContent = 'Open ROM in new tab / download';
+    link.style.color = '#33ff33';
+    link.target = '_blank';
+    const line = document.createElement('div');
+    line.className = 'line';
+    line.appendChild(link);
+    info.appendChild(line);
 }
 
-window.addEventListener('load', init);
+// Wire up UI: file upload, URL box, core select
+function initUi() {
+    const fileInput = document.getElementById('rom-file');
+    const urlInput = document.getElementById('rom-url');
+    const coreSelect = document.getElementById('core-select');
+    const launchBtn = document.getElementById('launch-btn');
+    const backBtn = document.getElementById('back-btn');
+    const romInfo = document.getElementById('rom-info');
+
+    let uploadedBlobUrl = null;
+    let uploadedFileName = null;
+
+    fileInput.addEventListener('change', (e) => {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        if (uploadedBlobUrl) URL.revokeObjectURL(uploadedBlobUrl);
+        uploadedBlobUrl = URL.createObjectURL(f);
+        uploadedFileName = f.name;
+        romInfo.textContent = `Selected file: ${f.name}`;
+        // clear URL input when file selected
+        urlInput.value = '';
+    });
+
+    urlInput.addEventListener('input', () => {
+        // clear uploaded file when URL typed
+        if (fileInput.value) {
+            fileInput.value = '';
+            if (uploadedBlobUrl) {
+                URL.revokeObjectURL(uploadedBlobUrl);
+                uploadedBlobUrl = null;
+            }
+            uploadedFileName = null;
+            romInfo.textContent = '';
+        }
+    });
+
+    launchBtn.addEventListener('click', async () => {
+        const core = coreSelect.value;
+        const url = urlInput.value.trim();
+
+        if (uploadedBlobUrl) {
+            await launchWithUrl(uploadedBlobUrl, core, uploadedFileName || 'Uploaded ROM');
+            return;
+        }
+
+        if (url) {
+            await launchWithUrl(url, core, url.split('/').pop() || 'ROM');
+            return;
+        }
+
+        alert('Please select a ROM file or paste a ROM URL.');
+    });
+
+    backBtn.addEventListener('click', () => {
+        location.href = '/';
+    });
+}
+
+// On load: if query contains rom param, try to launch it; else initialize UI
+window.addEventListener('load', () => {
+    const params = parseQuery();
+    if (params.rom) {
+        const rom = params.rom;
+        const core = params.core || document.getElementById('core-select')?.value || '';
+        const title = params.title || '';
+        launchWithUrl(rom, core, title);
+    }
+    initUi();
+});
