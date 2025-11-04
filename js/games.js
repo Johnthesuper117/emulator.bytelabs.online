@@ -56,39 +56,15 @@ function addLine(text) {
 /* ===== BOOT SEQUENCE ===== */
 async function bootSequence() {
     clearTerminal();
-    await typeText('BYTELABS ARCADE v1.0', 50);
-    addLine('');
-    await typeText('Initializing memory... OK', 20);
-    await typeText('Loading game archive... OK', 20);
-    await typeText('Calibrating CRT display... OK', 20);
-    addLine('');
-    await typeText('System ready.', 30);
-    addLine('');
-    setTimeout(showMainMenu, 500);
+    await typeText('BYTELABS ARCHIVE (legacy boot sequence removed)', 30);
 }
 
 /* ===== MAIN MENU ===== */
-function showMainMenu() {
-    currentScreen = 'menu';
-    clearTerminal();
+// Legacy interactive menu removed. Use search box on the page to find games.
 
-    const ascii = `
-╔═══════════════════════════════════════════╗
-║  BYTELABS ARCADE GAME ARCHIVE             ║
-║  ────────────────────────────────────     ║
-║  Your Portal to Classic Gaming            ║
-╚═══════════════════════════════════════════╝
-    `;
-
-    addLine(ascii);
-    addLine('');
-    addLine('SELECT A GAME:');
-    addLine('');
-
-    addLine('');
-    addLine('USE THE SEARCH BOX TO FIND GAMES (TYPE A TITLE OR TAG)');
-    addLine('');
-    addLine('Tip: You can type platform names (nes, gb, genesis) or tags like "adventure"');
+// Return to home/search. We navigate to root to ensure any running game loops are stopped.
+function returnToHome() {
+    location.href = '/';
 }
 
 /* ===== GAME SELECTION ===== */
@@ -129,7 +105,7 @@ function startSnake() {
     controls.className = 'game-controls';
     const backBtn = document.createElement('button');
     backBtn.textContent = 'RETURN TO MENU';
-    backBtn.onclick = showMainMenu;
+    backBtn.onclick = returnToHome;
     controls.appendChild(backBtn);
 
     container.appendChild(title);
@@ -173,7 +149,7 @@ function startSnake() {
             if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
                 clearInterval(gameLoop);
                 alert('Game Over! Score: ' + gameScore);
-                showMainMenu();
+                returnToHome();
                 return;
             }
 
@@ -181,7 +157,7 @@ function startSnake() {
             if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
                 clearInterval(gameLoop);
                 alert('Game Over! Score: ' + gameScore);
-                showMainMenu();
+                returnToHome();
                 return;
             }
 
@@ -249,7 +225,7 @@ function startTetris() {
     controls.className = 'game-controls';
     const backBtn = document.createElement('button');
     backBtn.textContent = 'RETURN TO MENU';
-    backBtn.onclick = showMainMenu;
+    backBtn.onclick = returnToHome;
     controls.appendChild(backBtn);
 
     container.appendChild(title);
@@ -362,7 +338,7 @@ function startTetris() {
             if (collision(currentPiece, currentPiece.x, currentPiece.y)) {
                 clearInterval(gameLoop);
                 alert('Game Over! Score: ' + gameScore);
-                showMainMenu();
+                returnToHome();
                 return;
             }
         }
@@ -448,7 +424,7 @@ function startBreakout() {
     controls.className = 'game-controls';
     const backBtn = document.createElement('button');
     backBtn.textContent = 'RETURN TO MENU';
-    backBtn.onclick = showMainMenu;
+    backBtn.onclick = returnToHome;
     controls.appendChild(backBtn);
 
     container.appendChild(title);
@@ -540,8 +516,8 @@ function startBreakout() {
         // Game over
         if (ball.y + ball.radius > canvas.height) {
             clearInterval(gameLoop);
-            alert('Game Over! Score: ' + gameScore);
-            showMainMenu();
+                alert('Game Over! Score: ' + gameScore);
+                returnToHome();
             return;
         }
 
@@ -549,7 +525,7 @@ function startBreakout() {
         if (bricks.every(brick => !brick.active)) {
             clearInterval(gameLoop);
             alert('You Win! Score: ' + gameScore);
-            showMainMenu();
+            returnToHome();
         }
     }
 
@@ -577,7 +553,7 @@ function startTextAdventure() {
     controls.className = 'game-controls';
     const backBtn = document.createElement('button');
     backBtn.textContent = 'RETURN TO MENU';
-    backBtn.onclick = showMainMenu;
+    backBtn.onclick = returnToHome;
     controls.appendChild(backBtn);
 
     container.appendChild(output);
@@ -727,7 +703,7 @@ function startMemoryMatch() {
     controls.className = 'game-controls';
     const backBtn = document.createElement('button');
     backBtn.textContent = 'RETURN TO MENU';
-    backBtn.onclick = showMainMenu;
+    backBtn.onclick = returnToHome;
     controls.appendChild(backBtn);
 
     container.appendChild(title);
@@ -813,7 +789,7 @@ function startMemoryMatch() {
 
                         if (matches === 8) {
                             alert('Congratulations! You found all matches!');
-                            showMainMenu();
+                            returnToHome();
                         }
                     } else {
                         cardStates[firstCard].revealed = false;
@@ -847,9 +823,7 @@ window.addEventListener('load', () => {
 });
 
 /* ===== START APPLICATION ===== */
-window.addEventListener('load', () => {
-    bootSequence();
-});
+// Legacy boot sequence disabled so the search UI remains visible on page load.
 
 // ===== SEARCH: load games and initialize Fuse =====
 let gamesDatabase = [];

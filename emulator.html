@@ -25,8 +25,11 @@
                 <div class="line" style="margin-top:10px;">Or paste a ROM URL:</div>
                 <input id="rom-url" class="text-input" placeholder="https://example.com/path/to.rom" />
 
-                <div class="line" style="margin-top:10px;">Or upload a ROM file:</div>
-                <input type="file" id="rom-file" accept=".nes,.smc,.sfc,.gen,.gb,.gba,.bin,.zip" />
+                <div class="line" style="margin-top:10px;">Or upload a ROM file (click or drag-and-drop):</div>
+                <div id="dropzone" class="dropzone">
+                    <div id="dropzone-text">Drop ROM here or click to select</div>
+                    <input type="file" id="rom-file" accept=".nes,.smc,.sfc,.gen,.gb,.gba,.bin,.zip" style="display:none" />
+                </div>
 
                 <div style="margin-top:12px;">
                     <button id="launch-btn">Launch ROM</button>

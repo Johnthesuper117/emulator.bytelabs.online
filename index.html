@@ -8,14 +8,14 @@
 </head>
 <body>
     <button class="fullscreen-btn" id="fullscreenBtn">FULLSCREEN</button>
+    <!-- Search UI placed outside the terminal so it's never cleared by in-terminal routines -->
+    <div class="search-panel" style="margin:20px; z-index:30; position:relative;">
+        <input id="search-input" class="text-input" placeholder="Search games by title, tag, platform..." />
+        <div id="results" class="search-results"></div>
+    </div>
+
     <div class="crt-container">
         <div class="terminal" id="terminal">
-            <!-- Search UI -->
-            <div class="search-panel">
-                <input id="search-input" class="text-input" placeholder="Search games by title, tag, platform..." />
-                <div id="results" class="search-results"></div>
-            </div>
-
             <!-- Emulator area (hidden until a ROM is loaded) -->
             <div id="emulator-container" class="hidden">
                 <div id="emulator-frame"></div>

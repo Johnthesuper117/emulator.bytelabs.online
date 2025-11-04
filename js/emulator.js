@@ -71,6 +71,7 @@ function initUi() {
     const launchBtn = document.getElementById('launch-btn');
     const backBtn = document.getElementById('back-btn');
     const romInfo = document.getElementById('rom-info');
+    const dropzone = document.getElementById('dropzone');
 
     let uploadedBlobUrl = null;
     let uploadedFileName = null;
@@ -86,6 +87,31 @@ function initUi() {
         urlInput.value = '';
     });
 
+    // Dropzone drag & drop
+    if (dropzone) {
+        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('drag-over');
+        });
+        dropzone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+        });
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+            const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+            if (!f) return;
+            if (uploadedBlobUrl) URL.revokeObjectURL(uploadedBlobUrl);
+            uploadedBlobUrl = URL.createObjectURL(f);
+            uploadedFileName = f.name;
+            romInfo.textContent = `Selected file: ${f.name}`;
+            // clear URL input when file selected
+            urlInput.value = '';
+        });
+    }
+
     urlInput.addEventListener('input', () => {
         // clear uploaded file when URL typed
         if (fileInput.value) {
@@ -97,6 +123,17 @@ function initUi() {
             uploadedFileName = null;
             romInfo.textContent = '';
         }
+    });
+
+    // Persist & restore last selected core
+    try {
+        const last = localStorage.getItem('lastCore');
+        if (last) coreSelect.value = last;
+    } catch (e) {
+        /* ignore */
+    }
+    coreSelect.addEventListener('change', () => {
+        try { localStorage.setItem('lastCore', coreSelect.value); } catch (e) {}
     });
 
     launchBtn.addEventListener('click', async () => {
