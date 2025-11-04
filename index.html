@@ -3,124 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BYTELABS EMULATOR v1.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/terminal.css">
+    <title>BYTELABS ARCHIVE</title>
+    <link rel="stylesheet" href="css/games.css">
 </head>
 <body>
-    <!-- Main CRT container with all visual effects -->
-    <div id="crt-container">
-        <!-- Terminal interface where all interaction happens -->
-        <div id="terminal">
-            <div class="logo">
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║  ███████╗███╗   ███╗██╗   ██╗██╗      █████╗ ████████╗ ██████╗ ██████╗    ║
-║  ██╔════╝████╗ ████║██║   ██║██║     ██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗   ║
-║  █████╗  ██╔████╔██║██║   ██║██║     ███████║   ██║   ██║   ██║██████╔╝   ║
-║  ██╔══╝  ██║╚██╔╝██║██║   ██║██║     ██╔══██║   ██║   ██║   ██║██╔══██╗   ║
-║  ███████╗██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║   ██║   ╚██████╔╝██║  ██║   ║
-║  ╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ║
-║                                                                           ║
-║                          BYTELABS EMULATOR v1.0                           ║
-║                          ----------------------                           ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝            
-</div>
-
-            <!-- Boot sequence messages -->
-            <div id="boot-sequence">
-                <div class="terminal-line">SYSTEM INITIALIZING...</div>
-                <div class="terminal-line">LOADING ROM DATABASE...</div>
-                <div class="terminal-line">EMULATION CORES READY</div>
-                <div class="terminal-line">═══════════════════════════════════════════════════</div>
-                <div class="terminal-line">TYPE TO SEARCH GAMES</div>
-                <div class="terminal-line">USE ARROW KEYS TO NAVIGATE | ENTER TO SELECT</div>
-                <div class="terminal-line">═══════════════════════════════════════════════════</div>
+    <button class="fullscreen-btn" id="fullscreenBtn">FULLSCREEN</button>
+    <div class="crt-container">
+        <div class="terminal" id="terminal">
+            <!-- Search UI -->
+            <div class="search-panel">
+                <input id="search-input" class="text-input" placeholder="Search games by title, tag, platform..." />
+                <div id="results" class="search-results"></div>
             </div>
 
-            <!-- Search input area -->
-            <div class="input-line">
-                <span class="prompt">&gt;</span>
-                <input type="text" id="search-input" autocomplete="off" autofocus>
-                <span class="cursor">█</span>
+            <!-- Emulator area (hidden until a ROM is loaded) -->
+            <div id="emulator-container" class="hidden">
+                <div id="emulator-frame"></div>
+                <button onclick="exitEmulator()">EXIT EMULATOR</button>
             </div>
 
-            <!-- Results container (populated dynamically) -->
-            <div id="results" class="results"></div>
-        </div>
-
-        <!-- Emulator container (hidden until game is selected) -->
-        <div id="emulator-container">
-            <button class="back-button" onclick="exitEmulator()">← BACK TO TERMINAL</button>
-            <div id="emulator-frame"></div>
+            <!-- Per-game pages will load this data if needed. This contains an array of games. -->
+            <script id="games" type="application/json">[
+                {
+                    "id": 1,
+                    "title": "Super Mario Bros",
+                    "platform": "NES",
+                    "year": 1985,
+                    "genre": "Platformer",
+                    "description": "Classic platforming adventure with Mario",
+                    "tags": ["mario", "nintendo", "platform", "classic"],
+                    "core": "nes",
+                    "rom": "roms/supermario.nes"
+                },
+                {
+                    "id": 2,
+                    "title": "The Legend of Zelda",
+                    "platform": "NES",
+                    "year": 1986,
+                    "genre": "Action-Adventure",
+                    "description": "Epic quest to save Princess Zelda",
+                    "tags": ["zelda", "adventure", "nintendo", "rpg"],
+                    "core": "nes",
+                    "rom": "roms/zelda.nes"
+                },
+                {
+                    "id": 3,
+                    "title": "Sonic the Hedgehog",
+                    "platform": "Genesis",
+                    "year": 1991,
+                    "genre": "Platformer",
+                    "description": "Lightning-fast platforming with Sonic",
+                    "tags": ["sonic", "sega", "speed", "platform"],
+                    "core": "genesis",
+                    "rom": "roms/sonic.gen"
+                },
+                {
+                    "id": 4,
+                    "title": "Street Fighter II",
+                    "platform": "SNES",
+                    "year": 1992,
+                    "genre": "Fighting",
+                    "description": "The legendary fighting game",
+                    "tags": ["fighting", "arcade", "competitive"],
+                    "core": "snes",
+                    "rom": "roms/sf2.smc"
+                },
+                {
+                    "id": 5,
+                    "title": "Pokémon Red",
+                    "platform": "Game Boy",
+                    "year": 1996,
+                    "genre": "RPG",
+                    "description": "Catch and train pocket monsters",
+                    "tags": ["pokemon", "rpg", "gameboy", "adventure"],
+                    "core": "gb",
+                    "rom": "roms/pokemon-red.gb"
+                }
+            ]</script>
         </div>
     </div>
 
-    <!-- Games database -->
-    <script type="application/json" id="games">
-    [
-        {
-            "id": 1,
-            "title": "Super Mario Bros",
-            "platform": "NES",
-            "year": 1985,
-            "genre": "Platformer",
-            "description": "Classic platforming adventure with Mario",
-            "tags": ["mario", "nintendo", "platform", "classic"],
-            "core": "nes",
-            "rom": "roms/supermario.nes"
-        },
-        {
-            "id": 2,
-            "title": "The Legend of Zelda",
-            "platform": "NES",
-            "year": 1986,
-            "genre": "Action-Adventure",
-            "description": "Epic quest to save Princess Zelda",
-            "tags": ["zelda", "adventure", "nintendo", "rpg"],
-            "core": "nes",
-            "rom": "roms/zelda.nes"
-        },
-        {
-            "id": 3,
-            "title": "Sonic the Hedgehog",
-            "platform": "Genesis",
-            "year": 1991,
-            "genre": "Platformer",
-            "description": "Lightning-fast platforming with Sonic",
-            "tags": ["sonic", "sega", "speed", "platform"],
-            "core": "genesis",
-            "rom": "roms/sonic.gen"
-        },
-        {
-            "id": 4,
-            "title": "Street Fighter II",
-            "platform": "SNES",
-            "year": 1992,
-            "genre": "Fighting",
-            "description": "The legendary fighting game",
-            "tags": ["fighting", "arcade", "competitive"],
-            "core": "snes",
-            "rom": "roms/sf2.smc"
-        },
-        {
-            "id": 5,
-            "title": "Pokémon Red",
-            "platform": "Game Boy",
-            "year": 1996,
-            "genre": "RPG",
-            "description": "Catch and train pocket monsters",
-            "tags": ["pokemon", "rpg", "gameboy", "adventure"],
-            "core": "gb",
-            "rom": "roms/pokemon-red.gb"
-        }
-    ]
-    </script>
-
-    <!-- Fuse.js library for fuzzy search functionality -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
-
-    <script src="js/emulator.js"></script>
+    <!-- Fuse.js (fuzzy search) -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+    <script src="js/games.js"></script>
+</body>
+</html>
 </body>
 </html>
