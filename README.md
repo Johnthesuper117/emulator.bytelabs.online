@@ -116,3 +116,15 @@ Local storage for recent searches
 Error handling with terminal-style messages
 Loading states with retro animations
 Comprehensive inline documentation
+
+### Rom Hunt
+
+Just use: https://www.romsgames.net/
+
+#### Sonic
+
+- https://www.romsgames.net/search/?q=sonic
+- https://info.sonicretro.org/sonic_hacks
+- https://www.retrogames.cz/play_117-Genesis.php?emulator=js
+- https://megadrive-emulator.com/platform-game/sonic-the-hedgehog
+- https://wiki.dolphin-emu.org/index.php?title=Sonic_Gems_Collection
