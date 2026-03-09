@@ -1,8 +1,9 @@
-import { Space_Grotesk, VT323 } from 'next/font/google';
+import { IBM_Plex_Mono, VT323 } from 'next/font/google';
 import './globals.css';
 
-const spaceGrotesk = Space_Grotesk({
+const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
   variable: '--font-display',
 });
 
@@ -20,7 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} ${vt323.variable}`}>{children}</body>
+      <body className={`${ibmPlexMono.variable} ${vt323.variable}`}>{children}</body>
     </html>
   );
 }

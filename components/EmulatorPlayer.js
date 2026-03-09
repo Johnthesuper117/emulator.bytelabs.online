@@ -50,7 +50,6 @@ export default function EmulatorPlayer({ game = 'mario', core = 'nes' }) {
           id="emulator-container"
           ref={emulatorRef}
           className="emulator-target"
-          style={{ width: '800px', height: '600px' }}
         />
       </div>
     </section>
